@@ -1,0 +1,9 @@
+https://dev.authz-server1.forkbomb.eu {
+	reverse_proxy /authz_server/* as_dev_authz_server:3000
+}
+https://dev.relying-party1.forkbomb.eu {
+	reverse_proxy /relying_party/* rp_dev_relying_party:3000
+}
+https://dev.issuer1.forkbomb.eu {
+	reverse_proxy /credential_issuer/* ci_forkbomb_test_issuer:3000
+}

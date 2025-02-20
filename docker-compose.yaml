@@ -1,0 +1,49 @@
+services:
+  as_dev_authz_server:
+    container_name: as_dev_authz_server
+    build: ./as_dev_authz_server
+    volumes:
+    - type: bind
+      source: ~/.config/didroom
+      target: /root/.config/didroom
+
+  rp_dev_relying_party:
+    container_name: rp_dev_relying_party
+    build: ./rp_dev_relying_party
+    volumes:
+    - type: bind
+      source: ~/.config/didroom
+      target: /root/.config/didroom
+
+  ci_forkbomb_test_issuer:
+    container_name: ci_forkbomb_test_issuer
+    build: ./ci_forkbomb_test_issuer
+    volumes:
+    - type: bind
+      source: ~/.config/didroom
+      target: /root/.config/didroom
+
+  caddy:
+    depends_on: 
+      as_dev_authz_server:
+        condition: service_started
+      rp_dev_relying_party:
+        condition: service_started
+      ci_forkbomb_test_issuer:
+        condition: service_started
+    container_name: caddy
+    image: caddy:alpine
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./site:/srv
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

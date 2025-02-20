@@ -1,0 +1,26 @@
+{
+    "type": "object",
+    "properties": {
+        "voucher": {
+            "type": "array",
+            "title": "voucher discount percentage",
+            "items": {
+                "type": "number",
+                "enum": [
+                    10,
+                    20,
+                    30,
+                    40,
+                    50,
+                    100
+                ]
+            },
+            "uniqueItems": true,
+            "minItems": 1,
+            "maxItems": 1
+        }
+    },
+    "required": [
+        "voucher"
+    ]
+}
